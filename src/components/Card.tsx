@@ -13,6 +13,17 @@ interface CardProps {
     item: Item
 }
 
+// get live status for time left
+function getLiveStatus(item: Item) {
+    const now = Date.now()
+    const start = new Date(item.start_time).getTime()
+    const end = new Date(item.end_time).getTime()
+
+    if (now < start) return 'upcoming'
+    if (now > end) return 'ended'
+    return 'live'
+}
+
 // Utility function to format remaining time from milliseconds
 function formatTimeLeft(ms: number): string {
     if (ms <= 0) return 'Ended'
@@ -26,6 +37,8 @@ function formatTimeLeft(ms: number): string {
 }
 
 const Card = ({ item }: CardProps) => {
+    // live status of the current bid
+    const liveStatus = getLiveStatus(item)
     // store the current time (updated every second)
     const [timeLeft, setTimeLeft] = useState('')
 
@@ -115,9 +128,9 @@ const Card = ({ item }: CardProps) => {
                 {/* Status Badge */}
                 <span
                     className={`text-xs font-semibold px-3 py-1.5 rounded-full uppercase tracking-wide
-                        ${item.status === 'live'
+                        ${liveStatus === 'live'
                             ? 'bg-green-100 text-green-700'
-                            : item.status === 'upcoming'
+                            : liveStatus === 'upcoming'
                                 ? 'bg-yellow-100 text-yellow-700'
                                 : 'bg-gray-200 text-gray-600'
                         }`}
@@ -132,13 +145,13 @@ const Card = ({ item }: CardProps) => {
             </div>
 
             {
-                item.status == 'live' ?
+                liveStatus == 'live' ?
                     <div className='w-full py-2 rounded-xl hover:bg-green-200 cursor-pointer bg-green-100 text-green-700 flex justify-center items-center'>
                         Place bid
                     </div> :
                     <div className='w-full py-2 rounded-xl cursor-pointer bg-red-100 text-red-700 flex justify-center items-center'>
                         {   // simple ternary operator usecase
-                            item.status == 'upcoming' ? "Bidding Yet to Start" : "Bidding Ended"
+                            liveStatus == 'upcoming' ? "Bidding Yet to Start" : "Bidding Ended"
                         }
                     </div>
             }

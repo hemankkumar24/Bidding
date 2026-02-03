@@ -7,6 +7,7 @@ import toast from 'react-hot-toast'
 const Products = () => {
 
   const [items, setItems] = useState<Item[]>([]) // use state for items
+  let value:number = 0;
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -18,20 +19,35 @@ const Products = () => {
 
       // setting items inside the useState
       setItems(data as Item[])
-      toast.success("Products Fetched Successfully!")
+      if(value == 0) {
+        toast.success("Products Fetched Successfully!")
+        value += 1;
+      }
     }
 
     fetchItems() // calling the useeffect function
+
+    const channel = supabase.channel('items-realtime').on('postgres_changes', {
+      event: '*', schema: 'public', table: 'items',
+    }, () => { fetchItems() }).subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+
   }, [])
+
+
+
 
   return (
     <div className='w-full h-full py-5'>
-        {/* All the products will be mentioned here */}
-        <div className='grid grid-cols-4 gap-3'>
-            { items.map(item => ( // mapping all the items for every card
-                <Card key={item.id} item={item} />
-            ))}
-        </div>
+      {/* All the products will be mentioned here */}
+      <div className='grid grid-cols-4 gap-3'>
+        {items.map(item => ( // mapping all the items for every card
+          <Card key={item.id} item={item} />
+        ))}
+      </div>
     </div>
   )
 }
