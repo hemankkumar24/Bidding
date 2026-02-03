@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase.js'
+import toast from 'react-hot-toast'
 
 interface AddProductOverlayProps {
     setAddProductToggle: React.Dispatch<React.SetStateAction<boolean>>
@@ -62,9 +63,10 @@ const AddProductOverlay = ({ setAddProductToggle }: AddProductOverlayProps) => {
             setStartingBid(0)
             setDurationMinutes(0)
             setImageFile(null)
-
+            toast.success("Item Added Successfully!")
         } catch (err) {
             console.error(err)
+            toast.error("Failed To Add Item: " + err)
         } finally {
             setLoading(false)
         }

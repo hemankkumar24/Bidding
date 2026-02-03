@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Card from './Card'
 import { supabase } from '../lib/supabase'
 import type { Item } from '../types/item' // the interface for each item
+import toast from 'react-hot-toast'
 
 const Products = () => {
 
@@ -17,11 +18,11 @@ const Products = () => {
 
       // setting items inside the useState
       setItems(data as Item[])
-      console.log(items);
+      toast.success("Products Fetched Successfully!")
     }
 
     fetchItems() // calling the useeffect function
-  })
+  }, [])
 
   return (
     <div className='w-full h-full py-5'>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { Item } from '../types/item'
 import { supabase } from '../lib/supabase.js'
+import toast from 'react-hot-toast'
 
 function getStoragePathFromUrl(url: string) {
     const parts = url.split('/item-images/')
@@ -68,7 +69,7 @@ const Card = ({ item }: CardProps) => {
                 return
             }
 
-            console.log('Item deleted successfully')
+            toast.success('Item deleted successfully')
 
         } catch (err) {
             console.error(err)
