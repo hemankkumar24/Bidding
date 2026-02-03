@@ -28,7 +28,7 @@ const Navbar = () => {
         <div className='text-3xl font-semibold'>
           Live Bidding
         </div>
-        <div className='text-2xl text-green-500 font-bold cursor-pointer' onClick={() => { setAddProductToggle(true) }}>
+        <div className='text-2xl text-green-700 hover:bg-green-300 px-4 py-2 rounded-lg bg-green-200 font-bold cursor-pointer' onClick={() => { setAddProductToggle(true) }}>
           Add Product
         </div>
       </div>

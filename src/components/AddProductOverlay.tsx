@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { supabase } from '../lib/supabase.js'
+import React, { useState } from 'react'
+import { supabase } from '../lib/supabase'
 import toast from 'react-hot-toast'
 
 interface AddProductOverlayProps {
@@ -124,12 +124,12 @@ return (
                     />
                 </div>
                 <div className="text-xl">
-                    Product Image
+                    Product Image <span className='text-stone-500 text-sm'>click box to add</span>
                     <input
                         type="file"
                         accept="image/*"
                         onChange={(e) => setImageFile(e.target.files?.[0] || null)}
-                        className="w-full text-sm"
+                        className="w-full text-sm bg-stone-100 p-2 inline cursor-pointer"
                     />
                 </div>
                 <button

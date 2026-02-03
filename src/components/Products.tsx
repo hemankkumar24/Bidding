@@ -4,7 +4,11 @@ import { supabase } from '../lib/supabase'
 import type { Item } from '../types/item' // the interface for each item
 import toast from 'react-hot-toast'
 
-const Products = () => {
+type ProductsProps = {
+  userName: string;
+};
+
+const Products = ({ userName }: ProductsProps) => {
 
   const [items, setItems] = useState<Item[]>([]) // use state for items
   let value:number = 0;
@@ -43,9 +47,9 @@ const Products = () => {
   return (
     <div className='w-full h-full py-5'>
       {/* All the products will be mentioned here */}
-      <div className='grid grid-cols-4 gap-3'>
+      <div className='grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3'>
         {items.map(item => ( // mapping all the items for every card
-          <Card key={item.id} item={item} />
+          <Card key={item.id} item={item} userName={userName} />
         ))}
       </div>
     </div>
